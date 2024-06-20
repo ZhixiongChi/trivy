@@ -1,14 +1,12 @@
 package flag_test
 
 import (
-	"github.com/google/go-containerregistry/pkg/name"
 	"testing"
 
+	"github.com/google/go-containerregistry/pkg/name"
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"go.uber.org/zap"
-	"go.uber.org/zap/zaptest/observer"
 
 	"github.com/aquasecurity/trivy/pkg/flag"
 	"github.com/aquasecurity/trivy/pkg/log"
@@ -68,7 +66,7 @@ func TestDBFlagGroup_ToOptions(t *testing.T) {
 				SkipDBUpdate:   true,
 				DownloadDBOnly: true,
 			},
-			assertion: func(t require.TestingT, err error, msgs ...interface{}) {
+			assertion: func(t require.TestingT, err error, msgs ...any) {
 				require.ErrorContains(t, err, "--skip-db-update and --download-db-only options can not be specified both")
 			},
 		},
@@ -79,16 +77,14 @@ func TestDBFlagGroup_ToOptions(t *testing.T) {
 				DownloadDBOnly: false,
 				DBRepository:   "foo:bar:baz",
 			},
-			assertion: func(t require.TestingT, err error, msgs ...interface{}) {
+			assertion: func(t require.TestingT, err error, msgs ...any) {
 				require.ErrorContains(t, err, "invalid db repository")
 			},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			level := zap.WarnLevel
-			core, obs := observer.New(level)
-			log.Logger = zap.New(core).Sugar()
+			out := newLogger(log.LevelWarn)
 
 			viper.Set(flag.SkipDBUpdateFlag.ConfigName, tt.fields.SkipDBUpdate)
 			viper.Set(flag.DownloadDBOnlyFlag.ConfigName, tt.fields.DownloadDBOnly)
@@ -109,11 +105,7 @@ func TestDBFlagGroup_ToOptions(t *testing.T) {
 			assert.EqualExportedValues(t, tt.want, got)
 
 			// Assert log messages
-			var gotMessages []string
-			for _, entry := range obs.AllUntimed() {
-				gotMessages = append(gotMessages, entry.Message)
-			}
-			assert.Equal(t, tt.wantLogs, gotMessages, tt.name)
+			assert.Equal(t, tt.wantLogs, out.Messages(), tt.name)
 		})
 	}
 }

@@ -4,10 +4,9 @@ import (
 	"bufio"
 	"context"
 	"os"
+	"slices"
 	"strings"
 	"regexp"
-
-	"golang.org/x/exp/slices"
 
 	"github.com/aquasecurity/trivy/pkg/fanal/analyzer"
 	"github.com/aquasecurity/trivy/pkg/fanal/types"

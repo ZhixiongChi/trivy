@@ -5,11 +5,11 @@ import (
 	"os"
 	"strings"
 
-	"golang.org/x/exp/maps"
+	"github.com/samber/lo"
 	"golang.org/x/xerrors"
 	"gopkg.in/yaml.v3"
 
-	sp "github.com/aquasecurity/trivy-policies/pkg/spec"
+	sp "github.com/aquasecurity/trivy-checks/pkg/spec"
 	iacTypes "github.com/aquasecurity/trivy/pkg/iac/types"
 	"github.com/aquasecurity/trivy/pkg/types"
 )
@@ -39,7 +39,7 @@ func (cs *ComplianceSpec) Scanners() (types.Scanners, error) {
 			scannerTypes[scannerType] = struct{}{}
 		}
 	}
-	return maps.Keys(scannerTypes), nil
+	return lo.Keys(scannerTypes), nil
 }
 
 // CheckIDs return list of compliance check IDs

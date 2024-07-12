@@ -39,9 +39,10 @@ var (
 		"15.2": time.Date(2021, 12, 31, 23, 59, 59, 0, time.UTC),
 		"15.3": time.Date(2022, 12, 31, 23, 59, 59, 0, time.UTC),
 		"15.4": time.Date(2023, 12, 31, 23, 59, 59, 0, time.UTC),
-		"15.5": time.Date(2028, 12, 31, 23, 59, 59, 0, time.UTC),
+		"15.5": time.Date(2024, 12, 31, 23, 59, 59, 0, time.UTC),
+		"15.6": time.Date(2031, 7, 31, 23, 59, 59, 0, time.UTC),
 		// 6 months after SLES 15 SP7 release
-		// "15.6": time.Date(2028, 12, 31, 23, 59, 59, 0, time.UTC),
+		// "15.7": time.Date(2031, 7, 31, 23, 59, 59, 0, time.UTC),
 	}
 
 	opensuseEolDates = map[string]time.Time{
@@ -55,6 +56,7 @@ var (
 		"15.3": time.Date(2022, 11, 30, 23, 59, 59, 0, time.UTC),
 		"15.4": time.Date(2023, 11, 30, 23, 59, 59, 0, time.UTC),
 		"15.5": time.Date(2024, 12, 31, 23, 59, 59, 0, time.UTC),
+		"15.6": time.Date(2025, 12, 31, 23, 59, 59, 0, time.UTC),
 	}
 )
 
@@ -89,10 +91,9 @@ func NewScanner(t Type) *Scanner {
 }
 
 // Detect scans and returns the vulnerabilities
-func (s *Scanner) Detect(osVer string, _ *ftypes.Repository, pkgs []ftypes.Package) ([]types.DetectedVulnerability, error) {
-	log.Logger.Info("Detecting SUSE vulnerabilities...")
-	log.Logger.Debugf("SUSE: os version: %s", osVer)
-	log.Logger.Debugf("SUSE: the number of packages: %d", len(pkgs))
+func (s *Scanner) Detect(ctx context.Context, osVer string, _ *ftypes.Repository, pkgs []ftypes.Package) ([]types.DetectedVulnerability, error) {
+	log.InfoContext(ctx, "Detecting vulnerabilities...", log.String("os_version", osVer),
+		log.Int("pkg_num", len(pkgs)))
 
 	var vulns []types.DetectedVulnerability
 	for _, pkg := range pkgs {

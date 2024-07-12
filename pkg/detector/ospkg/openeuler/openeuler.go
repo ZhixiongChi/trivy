@@ -51,10 +51,9 @@ func NewScanner() *Scanner {
 }
 
 // Detect scans and returns the vulnerabilities
-func (s *Scanner) Detect(osVer string, _ *ftypes.Repository, pkgs []ftypes.Package) ([]types.DetectedVulnerability, error) {
-	log.Logger.Info("Detecting openEuler vulnerabilities...")
-	log.Logger.Debugf("openEuler: os version: %s", osVer)
-	log.Logger.Debugf("openEuler: the number of packages: %d", len(pkgs))
+func (s *Scanner) Detect(ctx context.Context, osVer string, _ *ftypes.Repository, pkgs []ftypes.Package) ([]types.DetectedVulnerability, error) {
+	log.InfoContext(ctx, "Detecting openEuler vulnerabilities...", log.String("os_version", osVer),
+		log.Int("pkg_num", len(pkgs)))
 
 	var vulns []types.DetectedVulnerability
 	for _, pkg := range pkgs {

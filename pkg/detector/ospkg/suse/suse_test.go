@@ -11,8 +11,8 @@ import (
 	"github.com/aquasecurity/trivy-db/pkg/db"
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
 	"github.com/aquasecurity/trivy-db/pkg/vulnsrc/vulnerability"
+	"github.com/aquasecurity/trivy/internal/dbtest"
 	"github.com/aquasecurity/trivy/pkg/clock"
-	"github.com/aquasecurity/trivy/pkg/dbtest"
 	"github.com/aquasecurity/trivy/pkg/detector/ospkg/suse"
 	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
 	"github.com/aquasecurity/trivy/pkg/types"
@@ -60,6 +60,46 @@ func TestScanner_Detect(t *testing.T) {
 					VulnerabilityID:  "SUSE-SU-2021:0175-1",
 					InstalledVersion: "13-4.6.6",
 					FixedVersion:     "13-4.6.7",
+					Layer: ftypes.Layer{
+						DiffID: "sha256:932da51564135c98a49a34a193d6cd363d8fa4184d957fde16c9d8527b3f3b02",
+					},
+					DataSource: &dbTypes.DataSource{
+						ID:   vulnerability.SuseCVRF,
+						Name: "SUSE CVRF",
+						URL:  "https://ftp.suse.com/pub/projects/security/cvrf/",
+					},
+				},
+			},
+		},
+		{
+			name: "happy path: tumbleweed",
+			fixtures: []string{
+				"testdata/fixtures/tumbleweed.yaml",
+				"testdata/fixtures/data-source.yaml",
+			},
+			distribution: suse.OpenSUSETumbleweed,
+			args: args{
+				osVer: "",
+				pkgs: []ftypes.Package{
+					{
+						Name:       "singularity-ce",
+						Version:    "4.1.3",
+						Release:    "1.0",
+						SrcName:    "postgresql",
+						SrcVersion: "4.1.3",
+						SrcRelease: "1.1",
+						Layer: ftypes.Layer{
+							DiffID: "sha256:932da51564135c98a49a34a193d6cd363d8fa4184d957fde16c9d8527b3f3b02",
+						},
+					},
+				},
+			},
+			want: []types.DetectedVulnerability{
+				{
+					PkgName:          "singularity-ce",
+					VulnerabilityID:  "openSUSE-SU-2024:14059-1",
+					InstalledVersion: "4.1.3-1.0",
+					FixedVersion:     "4.1.3-1.1",
 					Layer: ftypes.Layer{
 						DiffID: "sha256:932da51564135c98a49a34a193d6cd363d8fa4184d957fde16c9d8527b3f3b02",
 					},
@@ -122,6 +162,16 @@ func TestScanner_IsSupportedVersion(t *testing.T) {
 		args         args
 		want         bool
 	}{
+		{
+			name: "opensuse.tumbleweed",
+			now:  time.Date(2019, 5, 31, 23, 59, 59, 0, time.UTC),
+			args: args{
+				osFamily: "opensuse.tumbleweed",
+				osVer:    "",
+			},
+			distribution: suse.OpenSUSETumbleweed,
+			want:         true,
+		},
 		{
 			name: "opensuse.leap42.3",
 			now:  time.Date(2019, 5, 31, 23, 59, 59, 0, time.UTC),

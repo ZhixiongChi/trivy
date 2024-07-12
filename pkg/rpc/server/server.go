@@ -8,7 +8,7 @@ import (
 	"golang.org/x/xerrors"
 	"google.golang.org/protobuf/types/known/emptypb"
 
-	"github.com/aquasecurity/trivy/pkg/fanal/cache"
+	"github.com/aquasecurity/trivy/pkg/cache"
 	"github.com/aquasecurity/trivy/pkg/log"
 	"github.com/aquasecurity/trivy/pkg/rpc"
 	"github.com/aquasecurity/trivy/pkg/scanner"
@@ -47,7 +47,7 @@ func (s *ScanServer) Scan(ctx context.Context, in *rpcScanner.ScanRequest) (*rpc
 		return types.Scanner(s)
 	})
 	options := types.ScanOptions{
-		VulnType:       in.Options.VulnType,
+		PkgTypes:       in.Options.PkgTypes,
 		Scanners:       scanners,
 		IncludeDevDeps: in.Options.IncludeDevDeps,
 	}

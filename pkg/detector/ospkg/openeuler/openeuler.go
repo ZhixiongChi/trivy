@@ -33,6 +33,8 @@ var (
 		"22.03-LTS-SP1": time.Date(2024, 12, 31, 23, 59, 59, 0, time.UTC),
 		"22.03-LTS-SP2": time.Date(2024, 3, 31, 23, 59, 59, 0, time.UTC),
 		"22.03-LTS-SP3": time.Date(2028, 3, 31, 23, 59, 59, 0, time.UTC),
+		"22.03-LTS-SP4": time.Date(2028, 3, 31, 23, 59, 59, 0, time.UTC),
+		"24.03-LTS":     time.Date(2028, 3, 31, 23, 59, 59, 0, time.UTC),
 	}
 )
 
@@ -56,7 +58,7 @@ func (s *Scanner) Detect(osVer string, _ *ftypes.Repository, pkgs []ftypes.Packa
 
 	var vulns []types.DetectedVulnerability
 	for _, pkg := range pkgs {
-		advisories, err := s.vs.Get(osVer, pkg.Name)
+		advisories, err := s.vs.Get(osVer, pkg.Name, pkg.Arch)
 		if err != nil {
 			return nil, xerrors.Errorf("failed to get openEuler advisory: %w", err)
 		}

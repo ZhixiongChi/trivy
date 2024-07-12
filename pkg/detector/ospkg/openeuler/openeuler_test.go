@@ -2,9 +2,10 @@ package openeuler_test
 
 import (
 	"context"
-	"github.com/aquasecurity/trivy/pkg/clock"
 	"testing"
 	"time"
+
+	"github.com/aquasecurity/trivy/pkg/clock"
 
 	"github.com/aquasecurity/trivy-db/pkg/db"
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
@@ -23,11 +24,11 @@ func TestScanner_Detect(t *testing.T) {
 		pkgs  []ftypes.Package
 	}
 	tests := []struct {
-		name         string
-		args         args
-		fixtures     []string
-		want         []types.DetectedVulnerability
-		wantErr      string
+		name     string
+		args     args
+		fixtures []string
+		want     []types.DetectedVulnerability
+		wantErr  string
 	}{
 		{
 			name: "happy path",
@@ -41,6 +42,7 @@ func TestScanner_Detect(t *testing.T) {
 					{
 						Name:       "perf",
 						Version:    "5.10.0",
+						Arch:       "x86_64",
 						Release:    "153.48.0.125",
 						SrcName:    "postgresql",
 						SrcVersion: "5.10.0",
@@ -112,10 +114,10 @@ func TestScanner_IsSupportedVersion(t *testing.T) {
 		osVer    string
 	}
 	tests := []struct {
-		name         string
-		now          time.Time
-		args         args
-		want         bool
+		name string
+		now  time.Time
+		args args
+		want bool
 	}{
 		{
 			name: "openEuler-20.03-LTS",
@@ -124,7 +126,7 @@ func TestScanner_IsSupportedVersion(t *testing.T) {
 				osFamily: "openEuler",
 				osVer:    "20.03-LTS",
 			},
-			want:         true,
+			want: true,
 		},
 		{
 			name: "21.09",
@@ -133,7 +135,7 @@ func TestScanner_IsSupportedVersion(t *testing.T) {
 				osFamily: "openEuler",
 				osVer:    "21.09",
 			},
-			want:         false,
+			want: false,
 		},
 		{
 			name: "22.03-LTS-SP3",

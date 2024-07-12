@@ -13,6 +13,7 @@ import (
 	"github.com/aquasecurity/trivy/pkg/detector/ospkg/chainguard"
 	"github.com/aquasecurity/trivy/pkg/detector/ospkg/debian"
 	"github.com/aquasecurity/trivy/pkg/detector/ospkg/mariner"
+	"github.com/aquasecurity/trivy/pkg/detector/ospkg/openeuler"
 	"github.com/aquasecurity/trivy/pkg/detector/ospkg/oracle"
 	"github.com/aquasecurity/trivy/pkg/detector/ospkg/photon"
 	"github.com/aquasecurity/trivy/pkg/detector/ospkg/redhat"
@@ -23,7 +24,6 @@ import (
 	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
 	"github.com/aquasecurity/trivy/pkg/log"
 	"github.com/aquasecurity/trivy/pkg/types"
-	"github.com/aquasecurity/trivy/pkg/detector/ospkg/openeuler"
 )
 
 var (
@@ -47,7 +47,7 @@ var (
 		ftypes.Photon:             photon.NewScanner(),
 		ftypes.Wolfi:              wolfi.NewScanner(),
 		ftypes.Chainguard:         chainguard.NewScanner(),
-    ftypes.OpenEuler:          openeuler.NewScanner(),
+		ftypes.OpenEuler:          openeuler.NewScanner(),
 	}
 )
 

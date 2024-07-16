@@ -2,6 +2,7 @@ package openeuler
 
 import (
 	"context"
+	"strings"
 	"time"
 
 	version "github.com/knqyf263/go-rpm-version"
@@ -28,13 +29,13 @@ var (
 		"22.03-LTS":     time.Date(2024, 3, 31, 23, 59, 59, 0, time.UTC),
 		"20.03-LTS-SP1": time.Date(2022, 12, 31, 23, 59, 59, 0, time.UTC),
 		"20.03-LTS-SP2": time.Date(2022, 3, 31, 23, 59, 59, 0, time.UTC),
-		"20.03-LTS-SP3": time.Date(2026, 3, 31, 23, 59, 59, 0, time.UTC),
+		"20.03-LTS-SP3": time.Date(2023, 12, 31, 23, 59, 59, 0, time.UTC),
 		"20.03-LTS-SP4": time.Date(2026, 3, 31, 23, 59, 59, 0, time.UTC),
 		"22.03-LTS-SP1": time.Date(2024, 12, 31, 23, 59, 59, 0, time.UTC),
 		"22.03-LTS-SP2": time.Date(2024, 3, 31, 23, 59, 59, 0, time.UTC),
-		"22.03-LTS-SP3": time.Date(2028, 3, 31, 23, 59, 59, 0, time.UTC),
+		"22.03-LTS-SP3": time.Date(2025, 12, 31, 23, 59, 59, 0, time.UTC),
 		"22.03-LTS-SP4": time.Date(2028, 3, 31, 23, 59, 59, 0, time.UTC),
-		"24.03-LTS":     time.Date(2028, 3, 31, 23, 59, 59, 0, time.UTC),
+		"24.03-LTS":     time.Date(2026, 3, 31, 23, 59, 59, 0, time.UTC),
 	}
 )
 
@@ -62,7 +63,7 @@ func (s *Scanner) Detect(ctx context.Context, osVer string, _ *ftypes.Repository
 			return nil, xerrors.Errorf("failed to get openEuler advisory: %w", err)
 		}
 
-		installed := utils.FormatVersion(pkg)
+		installed, _, _ := strings.Cut(utils.FormatVersion(pkg), ".oe")
 		installedVersion := version.NewVersion(installed)
 		for _, adv := range advisories {
 			fixedVersion := version.NewVersion(adv.FixedVersion)

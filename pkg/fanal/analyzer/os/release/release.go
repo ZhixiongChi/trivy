@@ -4,9 +4,9 @@ import (
 	"bufio"
 	"context"
 	"os"
+	"regexp"
 	"slices"
 	"strings"
-	"regexp"
 
 	"github.com/aquasecurity/trivy/pkg/fanal/analyzer"
 	"github.com/aquasecurity/trivy/pkg/fanal/types"
@@ -45,9 +45,9 @@ func (a osReleaseAnalyzer) Analyze(_ context.Context, input analyzer.AnalysisInp
 				continue
 			}
 			versionID = strings.Trim(value, `"'`)
-		case "PRETTY_NAME":
-			// Get openEuler Version
-			re := regexp.MustCompile(`openEuler |\(|\)`)
+		case "VERSION":
+			// Get openEuler detailed version
+			re := regexp.MustCompile(`\(|\)`)
 			versionID = strings.Replace(re.ReplaceAllString(strings.Trim(value, `"'`), ""), " ", "-", -1)
 		default:
 			continue

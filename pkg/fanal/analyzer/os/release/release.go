@@ -48,7 +48,7 @@ func (a osReleaseAnalyzer) Analyze(_ context.Context, input analyzer.AnalysisInp
 		case "VERSION":
 			// Get openEuler detailed version
 			re := regexp.MustCompile(`\(|\)`)
-			versionID = strings.Replace(re.ReplaceAllString(strings.Trim(value, `"'`), ""), " ", "-", -1)
+			versionID = strings.ReplaceAll(re.ReplaceAllString(strings.Trim(value, `"'`), ""), " ", "-")
 		default:
 			continue
 		}

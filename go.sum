@@ -2055,8 +2055,8 @@ github.com/vmihailenco/msgpack/v4 v4.3.12/go.mod h1:gborTTJjAo/GWTqqRjrLCn9pgNN+
 github.com/vmihailenco/tagparser v0.1.1/go.mod h1:OeAg3pn3UbLjkWt+rN9oFYB6u/cQgqMEUPoW2WPyhdI=
 github.com/willf/bitset v1.1.11-0.20200630133818-d5bec3311243/go.mod h1:RjeCKbqT1RxIR/KWY6phxZiaY1IyutSBfGjNPySAYV4=
 github.com/willf/bitset v1.1.11/go.mod h1:83CECat5yLh5zVOf4P1ErAgKA5UDvKtgyUABdr3+MjI=
-github.com/wjunLu/trivy-db v0.0.0-20240717160123-1bc509e3a5eb h1:SJcGu1ETzHS1GAmXHsdZsUUhc+jk1BnJxkkKlX+aW5s=
-github.com/wjunLu/trivy-db v0.0.0-20240717160123-1bc509e3a5eb/go.mod h1:0T6oy2t1Iedt+yi3Ml5cpOYp5FZT4MI1/mx+3p+PIs8=
+github.com/wjunLu/trivy-db v0.0.0-20240719013321-3cd70a420ce7 h1:oivbt7TL+anq1Sf/lpQCPGBnSZMyHCUGBzwUYNFbvGw=
+github.com/wjunLu/trivy-db v0.0.0-20240719013321-3cd70a420ce7/go.mod h1:0T6oy2t1Iedt+yi3Ml5cpOYp5FZT4MI1/mx+3p+PIs8=
 github.com/xanzy/ssh-agent v0.3.3 h1:+/15pJfg/RsTxqYcX6fHqOXZwwMP+2VyYWJeWM2qQFM=
 github.com/xanzy/ssh-agent v0.3.3/go.mod h1:6dzNDKs0J9rVPHPhaGCukekBHKqfl+L3KghI1Bc68Uw=
 github.com/xeipuuv/gojsonpointer v0.0.0-20180127040702-4e3ac2762d5f/go.mod h1:N2zxlSyiKSe5eX1tZViRH5QA0qijqEDrYZiPEAiq3wU=

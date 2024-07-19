@@ -58,13 +58,18 @@ func (s *Scanner) Detect(ctx context.Context, osVer string, _ *ftypes.Repository
 
 	var vulns []types.DetectedVulnerability
 	for _, pkg := range pkgs {
-		advisories, err := s.vs.Get(osVer, pkg.Name, pkg.Arch)
+		srcName := pkg.SrcName
+		if srcName == "" {
+			srcName = pkg.Name
+		}
+		advisories, err := s.vs.Get(osVer, srcName, pkg.Arch)
 		if err != nil {
 			return nil, xerrors.Errorf("failed to get openEuler advisory: %w", err)
 		}
 
 		installed, _, _ := strings.Cut(utils.FormatVersion(pkg), ".oe")
-		installedVersion := version.NewVersion(installed)
+		srcVersion, _, _ := strings.Cut(utils.FormatSrcVersion(pkg), ".oe")
+		sourceVersion := version.NewVersion(srcVersion)
 		for _, adv := range advisories {
 			fixedVersion := version.NewVersion(adv.FixedVersion)
 			vuln := types.DetectedVulnerability{
@@ -77,7 +82,7 @@ func (s *Scanner) Detect(ctx context.Context, osVer string, _ *ftypes.Repository
 				Custom:           adv.Custom,
 				DataSource:       adv.DataSource,
 			}
-			if installedVersion.LessThan(fixedVersion) {
+			if sourceVersion.LessThan(fixedVersion) {
 				vuln.FixedVersion = adv.FixedVersion
 				vulns = append(vulns, vuln)
 			}

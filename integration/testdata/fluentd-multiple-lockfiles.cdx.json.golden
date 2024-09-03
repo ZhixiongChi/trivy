@@ -68,6 +68,10 @@
           "value": "os-pkgs"
         },
         {
+          "name": "aquasecurity:trivy:SupportedOS",
+          "value": "true"
+        },
+        {
           "name": "aquasecurity:trivy:Type",
           "value": "debian"
         }

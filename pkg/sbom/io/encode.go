@@ -277,6 +277,12 @@ func (e *Encoder) resultComponent(root *core.Component, r types.Result, osFound 
 		if osFound != nil {
 			component.Name = string(osFound.Family)
 			component.Version = osFound.Name
+			if osFound.Supported {
+				component.Properties = append(component.Properties, core.Property{
+					Name:  core.PropertySupportedOS,
+					Value: "true",
+				})
+			}
 		}
 		component.Type = core.TypeOS
 	case types.ClassLangPkg:

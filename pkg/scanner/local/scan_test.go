@@ -119,8 +119,9 @@ func TestScanner_Scan(t *testing.T) {
 				Returns: ApplierApplyLayersReturns{
 					Detail: ftypes.ArtifactDetail{
 						OS: ftypes.OS{
-							Family: ftypes.Alpine,
-							Name:   "3.11",
+							Family:    ftypes.Alpine,
+							Name:      "3.11",
+							Supported: true,
 						},
 						Packages: []ftypes.Package{
 							muslPkg,
@@ -197,9 +198,10 @@ func TestScanner_Scan(t *testing.T) {
 				},
 			},
 			wantOS: ftypes.OS{
-				Family: "alpine",
-				Name:   "3.11",
-				Eosl:   true,
+				Family:    "alpine",
+				Name:      "3.11",
+				Eosl:      true,
+				Supported: true,
 			},
 		},
 		{
@@ -220,8 +222,9 @@ func TestScanner_Scan(t *testing.T) {
 				Returns: ApplierApplyLayersReturns{
 					Detail: ftypes.ArtifactDetail{
 						OS: ftypes.OS{
-							Family: ftypes.Alpine,
-							Name:   "3.11",
+							Family:    ftypes.Alpine,
+							Name:      "3.11",
+							Supported: true,
 						},
 						Packages: []ftypes.Package{
 							muslPkg,
@@ -294,9 +297,10 @@ func TestScanner_Scan(t *testing.T) {
 				},
 			},
 			wantOS: ftypes.OS{
-				Family: "alpine",
-				Name:   "3.11",
-				Eosl:   false,
+				Family:    "alpine",
+				Name:      "3.11",
+				Eosl:      false,
+				Supported: true,
 			},
 		},
 		{
@@ -502,8 +506,9 @@ func TestScanner_Scan(t *testing.T) {
 				Returns: ApplierApplyLayersReturns{
 					Detail: ftypes.ArtifactDetail{
 						OS: ftypes.OS{
-							Family: "alpine",
-							Name:   "3.11",
+							Family:    "alpine",
+							Name:      "3.11",
+							Supported: true,
 						},
 						Applications: []ftypes.Application{
 							{
@@ -557,9 +562,10 @@ func TestScanner_Scan(t *testing.T) {
 				},
 			},
 			wantOS: ftypes.OS{
-				Family: "alpine",
-				Name:   "3.11",
-				Eosl:   true,
+				Family:    "alpine",
+				Name:      "3.11",
+				Eosl:      true,
+				Supported: true,
 			},
 		},
 		{
@@ -683,8 +689,9 @@ func TestScanner_Scan(t *testing.T) {
 				Returns: ApplierApplyLayersReturns{
 					Detail: ftypes.ArtifactDetail{
 						OS: ftypes.OS{
-							Family: "alpine",
-							Name:   "3.11",
+							Family:    "alpine",
+							Name:      "3.11",
+							Supported: true,
 						},
 						Packages: []ftypes.Package{
 							muslPkg,
@@ -747,8 +754,9 @@ func TestScanner_Scan(t *testing.T) {
 				},
 			},
 			wantOS: ftypes.OS{
-				Family: "alpine",
-				Name:   "3.11",
+				Family:    "alpine",
+				Name:      "3.11",
+				Supported: true,
 			},
 		},
 		{
@@ -944,8 +952,9 @@ func TestScanner_Scan(t *testing.T) {
 				Returns: ApplierApplyLayersReturns{
 					Detail: ftypes.ArtifactDetail{
 						OS: ftypes.OS{
-							Family: "alpine",
-							Name:   "3.11",
+							Family:    "alpine",
+							Name:      "3.11",
+							Supported: true,
 						},
 						Packages: []ftypes.Package{
 							{
@@ -993,8 +1002,9 @@ func TestScanner_Scan(t *testing.T) {
 				Returns: ApplierApplyLayersReturns{
 					Detail: ftypes.ArtifactDetail{
 						OS: ftypes.OS{
-							Family: ftypes.Alpine,
-							Name:   "3.11",
+							Family:    ftypes.Alpine,
+							Name:      "3.11",
+							Supported: true,
 						},
 						Misconfigurations: []ftypes.Misconfiguration{
 							{
@@ -1097,9 +1107,10 @@ func TestScanner_Scan(t *testing.T) {
 				},
 			},
 			wantOS: ftypes.OS{
-				Family: "alpine",
-				Name:   "3.11",
-				Eosl:   false,
+				Family:    "alpine",
+				Name:      "3.11",
+				Eosl:      false,
+				Supported: true,
 			},
 		},
 	}

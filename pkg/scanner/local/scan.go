@@ -117,6 +117,7 @@ func (s Scanner) ScanTarget(ctx context.Context, target types.ScanTarget, option
 		return nil, ftypes.OS{}, xerrors.Errorf("failed to detect vulnerabilities: %w", err)
 	}
 	target.OS.Eosl = eosl
+	target.OS.Supported = ospkgDetector.DriverFound(target.OS.Family)
 	results = append(results, vulnResults...)
 
 	// Store misconfigurations

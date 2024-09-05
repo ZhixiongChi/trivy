@@ -161,7 +161,7 @@ func getRequiredSeverities(requiredSevs []dbTypes.Severity) ([]string, []string)
 	return severities, severityHeadings
 }
 
-func accumulateSeverityCounts(finding Resource) (map[string]int, map[string]int, map[string]int) {
+func accumulateSeverityCounts(finding ConsolidatedResource) (map[string]int, map[string]int, map[string]int) {
 	vCount := make(map[string]int)
 	mCount := make(map[string]int)
 	sCount := make(map[string]int)

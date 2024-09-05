@@ -120,10 +120,11 @@ const (
 	MavenPom = "pom.xml"
 	SbtLock  = "build.sbt.lock"
 
-	NpmPkg     = "package.json"
-	NpmPkgLock = "package-lock.json"
-	YarnLock   = "yarn.lock"
-	PnpmLock   = "pnpm-lock.yaml"
+	NpmPkg           = "package.json"
+	NpmPkgLock       = "package-lock.json"
+	NpmDependencyDir = "node_modules"
+	YarnLock         = "yarn.lock"
+	PnpmLock         = "pnpm-lock.yaml"
 
 	ComposerLock          = "composer.lock"
 	ComposerJson          = "composer.json"
@@ -153,4 +154,9 @@ const (
 
 	JuliaProject  = "Project.toml"
 	JuliaManifest = "Manifest.toml"
+)
+
+// license scanning constants
+const (
+	LOOSE_LICENSES = "loose-licenses"
 )

@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.55.1](https://github.com/aquasecurity/trivy/compare/v0.55.0...v0.55.1) (2024-09-06)
+
+
+### Bug Fixes
+
+* **license:** stop spliting a long license text ([#7336](https://github.com/aquasecurity/trivy/issues/7336)) ([4926da7](https://github.com/aquasecurity/trivy/commit/4926da79de901fba73819d71845ec0355b68ae0f))
+
 ## [0.55.0](https://github.com/aquasecurity/trivy/compare/v0.54.0...v0.55.0) (2024-09-03)
 
 

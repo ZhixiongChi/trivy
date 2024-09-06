@@ -49,7 +49,7 @@ type Report struct {
 type ConsolidatedReport struct {
 	SchemaVersion int `json:",omitempty"`
 	ClusterName   string
-	Findings      []Resource `json:",omitempty"`
+	Findings      []ConsolidatedResource `json:",omitempty"`
 }
 
 // Resource represents a kubernetes resource report
@@ -65,7 +65,23 @@ type Resource struct {
 	Report types.Report `json:"-"`
 }
 
+type ConsolidatedResource struct {
+	Namespace string `json:",omitempty"`
+	Kind      string
+	Name      string
+	Metadata  []types.Metadata `json:",omitempty"`
+	Results   types.Results    `json:",omitempty"`
+	Error     string           `json:",omitempty"`
+
+	// original report
+	Report types.Report `json:"-"`
+}
+
 func (r Resource) fullname() string {
+	return strings.ToLower(fmt.Sprintf("%s/%s/%s", r.Namespace, r.Kind, r.Name))
+}
+
+func (r ConsolidatedResource) fullname() string {
 	return strings.ToLower(fmt.Sprintf("%s/%s/%s", r.Namespace, r.Kind, r.Name))
 }
 
@@ -85,25 +101,28 @@ func (r Report) consolidate() ConsolidatedReport {
 		ClusterName:   r.ClusterName,
 	}
 
-	index := make(map[string]Resource)
+	crIndex := make(map[string]ConsolidatedResource)
 	var vulnerabilities []Resource
 	for _, m := range r.Resources {
 		if vulnerabilitiesOrSecretResource(m) {
 			vulnerabilities = append(vulnerabilities, m)
 		} else {
-			index[m.fullname()] = m
+			crIndex[m.fullname()] = toConsolidatedResource(m, []types.Metadata{m.Metadata})
 		}
 	}
 
+	mdIndex := make(map[string]types.Metadata)
+	consolidatedMetadata := []types.Metadata{}
 	for _, v := range vulnerabilities {
 		key := v.fullname()
+		consolidatedMetadata = consolidateMetadata(mdIndex, v.Metadata, consolidatedMetadata)
 
-		if res, ok := index[key]; ok {
-			index[key] = Resource{
+		if res, ok := crIndex[key]; ok {
+			crIndex[key] = ConsolidatedResource{
 				Namespace: res.Namespace,
 				Kind:      res.Kind,
 				Name:      res.Name,
-				Metadata:  res.Metadata,
+				Metadata:  consolidatedMetadata,
 				Results:   append(res.Results, v.Results...),
 				Error:     res.Error,
 			}
@@ -111,10 +130,10 @@ func (r Report) consolidate() ConsolidatedReport {
 			continue
 		}
 
-		index[key] = v
+		crIndex[key] = toConsolidatedResource(v, consolidatedMetadata)
 	}
 
-	consolidated.Findings = lo.Values(index)
+	consolidated.Findings = lo.Values(crIndex)
 
 	return consolidated
 }
@@ -279,4 +298,27 @@ func nodeKind(resource Resource) Resource {
 		resource.Kind = "Node"
 	}
 	return resource
+}
+
+func toConsolidatedResource(res Resource, consolidatedMetadata []types.Metadata) ConsolidatedResource {
+	return ConsolidatedResource{
+		Namespace: res.Namespace,
+		Kind:      res.Kind,
+		Name:      res.Name,
+		Metadata:  consolidatedMetadata,
+		Results:   res.Results,
+		Error:     res.Error,
+		Report:    res.Report,
+	}
+}
+
+func consolidateMetadata(index map[string]types.Metadata, metadata types.Metadata, consolidatedMetadata []types.Metadata) []types.Metadata {
+	key := metadata.ImageID
+
+	if _, exists := index[key]; !exists {
+		index[key] = metadata
+		consolidatedMetadata = append(consolidatedMetadata, metadata)
+	}
+
+	return consolidatedMetadata
 }
